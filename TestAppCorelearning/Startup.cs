@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +27,9 @@ namespace TestAppCorelearning
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContextPool<AppDbcontext>(option => option.UseSqlServer(_config.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentity<IdentityUser, IdentityRole>().
+                AddEntityFrameworkStores<AppDbcontext>();
             services.AddMvc().AddXmlSerializerFormatters();
             services.AddScoped<IEmployeeRepository, SqlEmployeeRepository>();
             
@@ -45,11 +49,13 @@ namespace TestAppCorelearning
             }
 
             app.UseDefaultFiles();
-            app.UseMvcWithDefaultRoute();
+           // app.UseMvcWithDefaultRoute();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
-                routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                routes.MapRoute("default", "{controller=Account}/{action=Register}/{id?}");
             });
             //app.UseStaticFiles();
 

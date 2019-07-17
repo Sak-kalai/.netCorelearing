@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TestAppCorelearning.Models
 {
-    public class AppDbcontext : DbContext
+    public class AppDbcontext : IdentityDbContext
     {
         public AppDbcontext(DbContextOptions<AppDbcontext> option) : base(option)
         {
@@ -18,6 +19,7 @@ namespace TestAppCorelearning.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.seed();
         }
 
