@@ -28,8 +28,11 @@ namespace TestAppCorelearning
         {
             services.AddDbContextPool<AppDbcontext>(option => option.UseSqlServer(_config.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<IdentityUser, IdentityRole>().
-                AddEntityFrameworkStores<AppDbcontext>();
+            services.AddIdentity<IdentityUser, IdentityRole>(option=> {
+                option.Password.RequiredLength = 10;
+            }).AddEntityFrameworkStores<AppDbcontext>();         
+
+
             services.AddMvc().AddXmlSerializerFormatters();
             services.AddScoped<IEmployeeRepository, SqlEmployeeRepository>();
             
